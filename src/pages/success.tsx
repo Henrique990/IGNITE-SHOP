@@ -21,7 +21,7 @@ export default function Success({ costumerName, product }: SuccessProps) {
                 <meta name="robots" content="noindex" />
             </Head>
             <SuccessContainer>
-                <h1>Compranefetuada</h1>
+                <h1>Compra efetuada</h1>
                 <ImageContainer>
                     <Image src={product.imageUrl} width={120} height={110} alt="" />
                 </ImageContainer>
@@ -50,6 +50,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
     const sessionId = String(query.session_id);
 
+    try {
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
         expand: ['line_items', 'line_items.data.price.product']
     });
@@ -63,6 +64,14 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
             product: {
                 name: product.name,
                 imageUrl: product.images[0]
+            }
+        }
+    }
+} catch (err) {
+    return { 
+        redirect: {
+            destination: '/',
+            permanent: false
             }
         }
     }
