@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 import {GetStaticPaths, GetStaticProps } from "next"
 import Image from "next/image"
 import Head from "next/head"
@@ -19,6 +20,12 @@ interface ProductProps {
 }
 
 export default function Product({ product}: ProductProps ) {
+
+    // const { isFallback } = useRouter()
+
+    // if (isFallback) {
+    //     return <p>Loading ...</p>
+    // }
 
     const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
 
@@ -68,9 +75,7 @@ export default function Product({ product}: ProductProps ) {
 export const getStaticPaths: GetStaticPaths = async () => {
     return {
 
-        paths: [
-            {params: { id: 'prod_MLH5Wy0Y97hDAC'}},
-        ],
+        paths: [],
         fallback: 'blocking',
     }
 }
